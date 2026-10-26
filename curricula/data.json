@@ -1,0 +1,49 @@
+{
+  "primary": {
+    "grade-4": {
+      "name": "الصف الرابع الابتدائي",
+      "terms": ["term-1"]
+    },
+    "grade-5": {
+      "name": "الصف الخامس الابتدائي",
+      "terms": ["term-1"]
+    },
+    "grade-6": {
+      "name": "الصف السادس الابتدائي",
+      "terms": ["term-1"]
+    }
+  },
+  "preparatory": {
+    "grade-1": {
+      "name": "الصف الأول الإعدادي",
+      "terms": ["term-1"]
+    },
+    "grade-2": {
+      "name": "الصف الثاني الإعدادي",
+      "terms": ["term-1"]
+    },
+    "grade-3": {
+      "name": "الصف الثالث الإعدادي",
+      "terms": ["term-1"]
+    }
+  },
+  "baccalaureate": {
+    "grade-1": {
+      "name": "الأول الثانوي بكالوريا",
+      "terms": ["term-1"]
+    },
+    "grade-2": {
+      "name": "تانية بكالوريا",
+      "terms": ["term-1"],
+      "commonSubjects": ["اللغة العربية", "اللغة الإنجليزية", "التاريخ"],
+      "specializationSubjects": []
+    }
+  },
+  "secondary-general": {
+    "grade-2": {
+      "name": "تانية ثانوي عام",
+      "terms": ["term-1"],
+      "branches": ["الشعبة الأولى", "الشعبة الثانية", "الشعبة الثالثة"]
+    }
+  }
+}

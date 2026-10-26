@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رفيق الدراسة</title>
+<style>
+:root{--bg:#f7f6ff;--surface:#fff;--text:#242345;--muted:#77758e;--primary:#6158c9;--primary2:#eeeaff;--border:#e8e6f3;--shadow:0 8px 28px rgba(50,43,120,.08);--accent:#dff5ed}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Segoe UI",sans-serif;transition:background .2s,color .2s}
+body[data-theme="dark"]{--bg:#171827;--surface:#232538;--text:#f5f4ff;--muted:#b8b6cd;--primary:#a39bff;--primary2:#353250;--border:#393b53;--shadow:0 8px 28px rgba(0,0,0,.2);--accent:#24453e}
+body[data-theme="rose"]{--bg:#fff5f8;--surface:#fff;--text:#422b3b;--muted:#927788;--primary:#c65d91;--primary2:#fde6f0;--border:#f4dce7;--accent:#ffe6ef}
+body[data-theme="blue"]{--bg:#f1f7ff;--surface:#fff;--text:#1d3450;--muted:#6d8198;--primary:#3478c9;--primary2:#e0efff;--border:#dce9f8;--accent:#dff7f5}
+body[data-theme="green"]{--bg:#f1faf5;--surface:#fff;--text:#244536;--muted:#6d8879;--primary:#318765;--primary2:#def4e8;--border:#d9eee2;--accent:#def4e8}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
+.iconbtn{width:42px;height:42px;border:1px solid var(--border);border-radius:13px;background:var(--surface);color:var(--text);font-size:22px}
+.brand{flex:1}.brand strong{display:block;font-size:19px;color:var(--primary)}.brand small{color:var(--muted)}
+.profile-chip{border:1px solid var(--border);background:var(--primary2);border-radius:14px;padding:9px 12px;font-size:13px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layout{max-width:1080px;margin:auto;padding:20px 16px 90px}
+.page{display:none;animation:appear .18s ease}.page.active{display:block}
+@keyframes appear{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,var(--primary2),var(--surface));border:1px solid var(--border);border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:var(--shadow)}
+.hero h1{margin:0 0 10px;font-size:clamp(24px,4vw,34px)}.hero p{color:var(--muted);line-height:1.8;margin:0}
+.hero .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:13px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:19px;padding:18px;text-align:start;box-shadow:var(--shadow);color:var(--text);min-height:130px}
+.card:hover{transform:translateY(-2px)}.card .emoji{font-size:28px;display:block;margin-bottom:12px}.card strong{display:block;font-size:16px;margin-bottom:7px}.card small{color:var(--muted);line-height:1.6}
+.btn{border:0;border-radius:12px;padding:11px 16px;background:var(--primary);color:white;font-weight:700}
+.btn.secondary{background:var(--primary2);color:var(--text);border:1px solid var(--border)}
+.btn.ghost{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.stack{display:grid;gap:13px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:19px;padding:18px;margin-top:14px}
+h2{margin:0 0 14px;font-size:23px}h3{margin:0 0 10px}
+.field{display:grid;gap:7px;margin-bottom:13px}.field label{font-size:14px;color:var(--muted)}
+.field input,.field select,.field textarea,.chat-input{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text);outline-color:var(--primary)}
+.field textarea{min-height:100px;resize:vertical}
+.page-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}.page-head h2{margin:0;flex:1}
+.back{background:var(--surface);color:var(--text);border:1px solid var(--border);padding:9px 13px;border-radius:11px}
+.drawer-backdrop{position:fixed;inset:0;background:#0006;z-index:8;display:none}.drawer{position:fixed;z-index:9;top:0;bottom:0;right:0;width:min(320px,86vw);background:var(--surface);padding:20px;transform:translateX(110%);transition:transform .2s;overflow:auto;border-left:1px solid var(--border)}
+body.menu-open .drawer{transform:translateX(0)}body.menu-open .drawer-backdrop{display:block}
+.drawer h2{color:var(--primary);margin:12px 0 22px}.menu-item{width:100%;text-align:start;display:block;padding:13px;border:0;border-radius:12px;background:transparent;color:var(--text);margin:4px 0}.menu-item:hover{background:var(--primary2)}
+.chat-log{display:grid;gap:10px;max-height:48vh;overflow:auto;padding:12px;background:var(--bg);border-radius:14px;margin:12px 0}
+.bubble{padding:11px 13px;border-radius:14px;max-width:90%;line-height:1.7;white-space:pre-wrap}.bubble.bot{background:var(--primary2);justify-self:start}.bubble.user{background:var(--accent);justify-self:end}
+.empty{color:var(--muted);line-height:1.8}.itemline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--border);border-radius:13px;margin-top:9px}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}.theme-swatch{border:2px solid var(--border);border-radius:16px;padding:14px;background:var(--surface);color:var(--text);text-align:center}.theme-swatch.active{border-color:var(--primary)}
+.swatch{height:44px;border-radius:10px;margin-bottom:8px}
+footer{text-align:center;color:var(--muted);padding:22px;font-size:12px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:4;background:var(--surface);border-top:1px solid var(--border);display:flex;justify-content:center;gap:8px;padding:9px}
+.bottom-nav button{border:0;border-radius:12px;background:transparent;color:var(--muted);padding:8px 13px}.bottom-nav button.active{background:var(--primary2);color:var(--primary)}
+@media(min-width:760px){.layout{padding-top:28px}.hero{padding:32px}.bottom-nav{display:none}}
+[dir="ltr"] .drawer{right:auto;left:0;transform:translateX(-110%);border-left:0;border-right:1px solid var(--border)}
+[dir="ltr"] body.menu-open .drawer{transform:translateX(0)}
+[dir="ltr"] .profile-chip{text-align:left}
+
+.auth-screen{position:fixed;inset:0;z-index:1000;overflow:auto;background:var(--bg);padding:22px 14px;display:flex;align-items:center;justify-content:center}
+.auth-screen[hidden]{display:none!important}
+[hidden], #authScreen [hidden]{display:none!important}
+.auth-shell{width:min(760px,100%);display:grid;grid-template-columns:1fr;gap:16px}
+.auth-brand{padding:24px;border-radius:24px;background:linear-gradient(135deg,var(--primary2),var(--surface));border:1px solid var(--border);box-shadow:var(--shadow)}
+.auth-brand h1{font-size:clamp(27px,5vw,38px);margin:0 0 10px;color:var(--primary)}
+.auth-brand p{line-height:1.9;color:var(--muted);margin:0}
+.auth-panel{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:var(--shadow)}
+.auth-panel h2{margin-bottom:6px}.auth-subtitle{color:var(--muted);line-height:1.7;margin:0 0 18px}
+.auth-grid{display:grid;grid-template-columns:1fr;gap:0}
+.auth-error{color:#b42345;font-size:13px;line-height:1.6;min-height:20px}
+.auth-foot{font-size:12px;color:var(--muted);line-height:1.7;margin-top:14px}
+.auth-toggle{border:0;background:transparent;color:var(--primary);font-weight:700;padding:8px}
+.auth-topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+body.auth-locked{overflow:hidden}
+@media(min-width:700px){.auth-shell{grid-template-columns:.85fr 1.15fr;align-items:stretch}.auth-brand{display:flex;flex-direction:column;justify-content:center}.auth-panel{padding:28px}}
+
+</style>
+</head>
+<body data-theme="pastel" class="auth-locked">
+
+<section class="auth-screen" id="authScreen" aria-label="تسجيل الدخول">
+  <div class="auth-shell">
+    <div class="auth-brand">
+      <h1>رفيق الدراسة</h1>
+      <p>مساحتك لتنظيم المذاكرة، متابعة التقدم، وتحديد هدفك الدراسي خطوة بخطوة.</p>
+      <p style="margin-top:14px">ابدأ بإنشاء ملفك الدراسي، وبعدها هتدخل على نفس التطبيق بكل صفحاته وتصميمه.</p>
+    </div>
+    <div class="auth-panel">
+      <div class="auth-topline">
+        <div>
+          <h2 id="authTitle">إنشاء حساب طالب</h2>
+          <p class="auth-subtitle" id="authSubtitle">اكتب بياناتك وحدد مرحلتك ومسارك الدراسي.</p>
+        </div>
+        <button class="back" type="button" id="authLang">English</button>
+      </div>
+      <form id="authForm">
+        <div class="field"><label for="authName">اسم الطالب</label><input id="authName" autocomplete="name" required maxlength="60" placeholder="اكتب اسمك"></div>
+        <div class="field"><label for="authPassword">كلمة المرور</label><input id="authPassword" type="password" autocomplete="new-password" required minlength="4" placeholder="اكتب كلمة مرور من 4 أحرف على الأقل"></div>
+        <div class="field"><label for="authGrade">الصف الدراسي</label>
+          <select id="authGrade" required>
+            <option value="">اختار الصف</option>
+            <option value="primary4">الصف الرابع الابتدائي</option><option value="primary5">الصف الخامس الابتدائي</option><option value="primary6">الصف السادس الابتدائي</option>
+            <option value="prep1">الصف الأول الإعدادي</option><option value="prep2">الصف الثاني الإعدادي</option><option value="prep3">الصف الثالث الإعدادي</option>
+            <option value="secondary1">الصف الأول الثانوي</option><option value="secondary2">الصف الثاني الثانوي</option>
+          </select>
+        </div>
+        <div class="field" id="authSystemWrap" hidden><label for="authSystem">النظام الدراسي</label><select id="authSystem"><option value="">اختار النظام</option><option value="general">الثانوية العامة</option><option value="baccalaureate">البكالوريا</option></select></div>
+        <div class="field" id="authGeneralWrap" hidden><label for="authGeneral">الشعبة</label><select id="authGeneral"><option value="">اختار الشعبة</option><option>علمي علوم</option><option>علمي رياضة</option><option>أدبي</option></select></div>
+        <div class="field" id="authPathWrap" hidden><label for="authPath">المسار</label><select id="authPath"><option value="">اختار المسار</option><option value="medicine">الطب وعلوم الحياة</option><option value="engineering">الهندسة وعلوم الحاسب</option><option value="business">الأعمال</option><option value="arts">الآداب والفنون</option></select></div>
+        <div class="field" id="authTermWrap"><label for="authTerm">الفصل الدراسي</label><select id="authTerm" required><option value="الترم الأول">الترم الأول</option><option value="الترم الثاني">الترم الثاني</option></select></div>
+        <div class="field" id="authSpecialtyWrap" hidden><label for="authSpecialty">التخصص داخل المسار</label><select id="authSpecialty"><option value="">اختار التخصص</option></select></div>
+        <div class="auth-error" id="authError" role="status"></div>
+        <button class="btn" type="submit" id="authSubmit" style="width:100%">إنشاء الحساب والدخول</button>
+      </form>
+      <p class="auth-foot">دي نسخة تجريبية تحفظ بياناتك على نفس الجهاز والمتصفح فقط. تسجيل الحساب وكلمة المرور مش متصلين بسيرفر، فمتحطش كلمة مرور بتستخدمها في حساباتك الحقيقية.</p>
+      <button class="auth-toggle" id="authReset" type="button">مسح الملف المحلي والبدء من جديد</button>
+    </div>
+  </div>
+</section>
+
+<header class="topbar">
+  <button class="iconbtn" id="menuButton" aria-label="Open menu">☰</button>
+  <div class="brand"><strong data-ar="رفيق الدراسة" data-en="Study Companion">رفيق الدراسة</strong><small data-ar="خطوة صغيرة كل يوم" data-en="One small step every day">خطوة صغيرة كل يوم</small></div>
+  <div class="profile-chip" id="topGreeting">أهلًا بيك</div>
+</header>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<aside class="drawer" id="drawer">
+  <button class="back" id="closeMenu">✕ <span data-ar="إغلاق" data-en="Close">إغلاق</span></button>
+  <h2 data-ar="القائمة" data-en="Menu">القائمة</h2>
+  <button class="menu-item" data-go="home">⌂ <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button>
+  <button class="menu-item" data-go="assistant">🤖 <span data-ar="المساعد الذكي" data-en="AI Assistant">المساعد الذكي</span></button>
+  <button class="menu-item" data-go="summaries">📚 <span data-ar="الملخصات والامتحانات" data-en="Summaries & Exams">الملخصات والامتحانات</span></button>
+  <button class="menu-item" data-go="schedule">🗓️ <span data-ar="جدول المذاكرة" data-en="Study Schedule">جدول المذاكرة</span></button>
+  <button class="menu-item" data-go="achievements">🏆 <span data-ar="إنجازاتي ونقاطي" data-en="Achievements">إنجازاتي ونقاطي</span></button>
+  <button class="menu-item" data-go="notes">📝 <span data-ar="ملاحظاتي" data-en="My Notes">ملاحظاتي</span></button>
+  <button class="menu-item" data-go="worship">🌙 <span data-ar="عبادتي" data-en="My Worship">عبادتي</span></button>
+  <button class="menu-item" data-go="journal">🌱 <span data-ar="مساحتي الخاصة" data-en="Private Journal">مساحتي الخاصة</span></button>
+  <button class="menu-item" data-go="settings">⚙️ <span data-ar="الإعدادات والحساب" data-en="Settings & Account">الإعدادات والحساب</span></button>
+  <button class="menu-item" data-go="support">🎧 <span data-ar="الشكاوى والدعم الفني" data-en="Support & Complaints">الشكاوى والدعم الفني</span></button>
+  <button class="menu-item" data-go="admin">🛡️ <span data-ar="لوحة إدارة المطوّرة (تجريبية)" data-en="Developer Admin (Demo)">لوحة إدارة المطوّرة (تجريبية)</span></button>
+  <button class="menu-item" data-go="about">ⓘ <span data-ar="عن التطبيق والمطوّر" data-en="About the App & Developer">عن التطبيق والمطوّر</span></button>
+</aside>
+
+<main class="layout">
+<section class="page active" id="page-home">
+  <div class="hero">
+    <h1 id="welcomeTitle">أهلًا بيك في رفيق الدراسة</h1>
+    <p id="welcomeText">مكان واحد يساعدك تنظّم مذاكرتك وتتابع تقدمك خطوة بخطوة.</p>
+    <div class="actions"><button class="btn" data-go="assistant" data-ar="ابدأ المذاكرة" data-en="Start studying">ابدأ المذاكرة</button><button class="btn secondary" data-go="settings" data-ar="خصص تجربتك" data-en="Personalize">خصص تجربتك</button></div>
+  </div>
+  <div class="grid">
+    <button class="card" data-go="assistant"><span class="emoji">🤖</span><strong data-ar="المساعد الذكي" data-en="AI Assistant">المساعد الذكي</strong><small data-ar="اسأل واكتب أفكارك الدراسية" data-en="Ask study questions">اسأل واكتب أفكارك الدراسية</small></button>
+    <button class="card" data-go="summaries"><span class="emoji">📚</span><strong data-ar="الملخصات والامتحانات" data-en="Summaries & Exams">الملخصات والامتحانات</strong><small data-ar="مكان للملفات والمراجعة" data-en="Materials and revision">مكان للملفات والمراجعة</small></button>
+    <button class="card" data-go="schedule"><span class="emoji">🗓️</span><strong data-ar="جدول المذاكرة" data-en="Study Schedule">جدول المذاكرة</strong><small data-ar="نظّم مهامك اليومية" data-en="Organize daily tasks">نظّم مهامك اليومية</small></button>
+    <button class="card" data-go="achievements"><span class="emoji">🏆</span><strong data-ar="إنجازاتي ونقاطي" data-en="Achievements">إنجازاتي ونقاطي</strong><small data-ar="تابع اللي أنجزته" data-en="Track your progress">تابع اللي أنجزته</small></button>
+    <button class="card" data-go="notes"><span class="emoji">📝</span><strong data-ar="ملاحظاتي" data-en="My Notes">ملاحظاتي</strong><small data-ar="احفظ أفكارك وملاحظاتك" data-en="Save your notes">احفظ أفكارك وملاحظاتك</small></button>
+    <button class="card" data-go="worship"><span class="emoji">🌙</span><strong data-ar="عبادتي" data-en="My Worship">عبادتي</strong><small data-ar="تابع وردك وعاداتك اليومية" data-en="Track daily worship habits">تابع وردك وعاداتك اليومية</small></button>
+    <button class="card" data-go="journal"><span class="emoji">🌱</span><strong data-ar="مساحتي الخاصة" data-en="Private Journal">مساحتي الخاصة</strong><small data-ar="ملاحظات شخصية على هذا الجهاز" data-en="Personal notes on this device">ملاحظات شخصية على هذا الجهاز</small></button>
+    <button class="card" data-go="settings"><span class="emoji">⚙️</span><strong data-ar="الإعدادات" data-en="Settings">الإعدادات</strong><small data-ar="الحساب واللغة والثيم" data-en="Account, language, theme">الحساب واللغة والثيم</small></button>
+  </div>
+</section>
+
+<section class="page" id="page-assistant">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="المساعد الذكي" data-en="AI Assistant">المساعد الذكي</h2></div>
+  <div class="hero"><h1>🤖 <span id="botNameDisplay">رفيق</span></h1><p data-ar="مساعدك الدراسي موجود هنا. النسخة الحالية واجهة تجريبية ولا تتصل بذكاء اصطناعي حقيقي بعد." data-en="Your study helper is here. This prototype does not connect to a real AI yet.">مساعدك الدراسي موجود هنا. النسخة الحالية واجهة تجريبية ولا تتصل بذكاء اصطناعي حقيقي بعد.</p></div>
+  <div class="panel"><h3 data-ar="المحادثة" data-en="Chat">المحادثة</h3><div class="chat-log" id="chatLog"><div class="bubble bot" data-ar="أهلًا! اكتب سؤالك الدراسي. في النسخة التجريبية هسجل رسالتك هنا، وبعدها نربط المساعد بخدمة ذكاء اصطناعي." data-en="Hello! Type your study question. This demo displays your message; AI will be connected later.">أهلًا! اكتب سؤالك الدراسي. في النسخة التجريبية هسجل رسالتك هنا، وبعدها نربط المساعد بخدمة ذكاء اصطناعي.</div></div>
+  <form id="chatForm" class="row"><input class="chat-input" id="chatInput" placeholder="اكتب سؤالك هنا..." required style="flex:1;min-width:150px"><button class="btn" data-ar="إرسال" data-en="Send">إرسال</button></form></div>
+</section>
+
+<section class="page" id="page-summaries">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="الملخصات والامتحانات" data-en="Summaries & Exams">الملخصات والامتحانات</h2></div>
+  <div class="panel"><p class="empty" data-ar="هنا هنضيف ملفات المواد، الملخصات، والامتحانات. رفع الملفات وتحليلها مش مفعّل في النسخة التجريبية." data-en="This area is for subject files, summaries, and exams. Upload and analysis are not enabled in this prototype.">هنا هنضيف ملفات المواد، الملخصات، والامتحانات. رفع الملفات وتحليلها مش مفعّل في النسخة التجريبية.</p>
+  <div class="field"><label data-ar="اسم المادة" data-en="Subject">اسم المادة</label><input id="subjectInput" placeholder="مثال: الفيزياء"></div><div class="field"><label data-ar="ملاحظة للمراجعة" data-en="Revision note">ملاحظة للمراجعة</label><textarea id="revisionInput" placeholder="اكتب موضوعًا تريد مراجعته..."></textarea></div><button class="btn" id="saveRevision" data-ar="حفظ الملاحظة" data-en="Save note">حفظ الملاحظة</button><div id="revisionList"></div></div>
+</section>
+
+<section class="page" id="page-schedule">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="جدول المذاكرة" data-en="Study Schedule">جدول المذاكرة</h2></div>
+  <div class="panel"><div class="field"><label data-ar="المهمة" data-en="Task">المهمة</label><input id="taskInput" placeholder="مثال: حل واجب الفيزياء"></div><div class="field"><label data-ar="موعد المهمة" data-en="Task date">موعد المهمة</label><input id="taskDate" type="date"></div><button class="btn" id="addTask" data-ar="إضافة للجدول" data-en="Add to schedule">إضافة للجدول</button><div id="taskList"></div></div>
+</section>
+
+<section class="page" id="page-achievements">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="إنجازاتي ونقاطي" data-en="Achievements">إنجازاتي ونقاطي</h2></div>
+  <div class="hero"><h1><span id="points">0</span> <span data-ar="نقطة" data-en="points">نقطة</span></h1><p data-ar="كل ما تنهي مهمة فعلًا، علّم عليها علشان تتابع تقدمك." data-en="Mark tasks complete to track your progress.">كل ما تنهي مهمة فعلًا، علّم عليها علشان تتابع تقدمك.</p></div><div id="achievementTasks" class="panel"></div>
+</section>
+
+<section class="page" id="page-notes">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="ملاحظاتي" data-en="My Notes">ملاحظاتي</h2></div>
+  <div class="panel"><div class="field"><label data-ar="عنوان الملاحظة" data-en="Note title">عنوان الملاحظة</label><input id="noteTitle" placeholder="عنوان صغير"></div><div class="field"><label data-ar="المحتوى" data-en="Content">المحتوى</label><textarea id="noteBody" placeholder="اكتب ملاحظتك..."></textarea></div><button class="btn" id="saveNote" data-ar="حفظ الملاحظة" data-en="Save note">حفظ الملاحظة</button><div id="notesList"></div></div>
+</section>
+
+<section class="page" id="page-worship">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="عبادتي" data-en="My Worship">عبادتي</h2></div>
+  <div class="hero"><h1 data-ar="وقل رب زدني علمًا" data-en="My daily worship">وقل رب زدني علمًا</h1><p data-ar="علّم على العادات اللي أنجزتها اليوم. يتم حفظ الاختيارات على هذا الجهاز." data-en="Check the habits you completed today. Choices are saved on this device.">علّم على العادات اللي أنجزتها اليوم. يتم حفظ الاختيارات على هذا الجهاز.</p></div>
+  <div class="panel stack" id="worshipList"></div>
+</section>
+
+<section class="page" id="page-journal">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="مساحتي الخاصة" data-en="Private Journal">مساحتي الخاصة</h2></div>
+  <div class="panel"><p class="empty" data-ar="المحتوى هنا يُحفظ محليًا في المتصفح على هذا الجهاز فقط ضمن هذه النسخة التجريبية. لا تكتبي معلومات شديدة الحساسية، وقد يتمكن أي شخص يستخدم نفس ملف المتصفح من رؤيتها." data-en="This demo saves entries locally in this browser on this device. Avoid highly sensitive information; someone using the same browser profile may be able to view them.">المحتوى هنا يُحفظ محليًا في المتصفح على هذا الجهاز فقط ضمن هذه النسخة التجريبية. لا تكتبي معلومات شديدة الحساسية، وقد يتمكن أي شخص يستخدم نفس ملف المتصفح من رؤيتها.</p><div class="field"><label data-ar="اكتبي اللي في بالك" data-en="Write your thoughts">اكتبي اللي في بالك</label><textarea id="journalText" placeholder="مساحة خاصة لك..."></textarea></div><button class="btn" id="saveJournal" data-ar="حفظ على هذا الجهاز" data-en="Save on this device">حفظ على هذا الجهاز</button><p id="journalSaved" class="empty"></p></div>
+</section>
+
+<section class="page" id="page-settings">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="الإعدادات والحساب" data-en="Settings & Account">الإعدادات والحساب</h2></div>
+  <div class="panel"><h3 data-ar="حسابك وشخصيتك" data-en="Your profile">حسابك وشخصيتك</h3>
+    <div class="field"><label data-ar="اسمك" data-en="Your name">اسمك</label><input id="studentName" placeholder="اكتب اسمك"></div>
+    <div class="field"><label data-ar="تحب نناديك بإيه؟ (دكتور، مهندس، كابتن...)" data-en="What title would you like? (Doctor, Engineer, Captain...)">تحب نناديك بإيه؟ (دكتور، مهندس، كابتن...)</label><input id="studentTitle" placeholder="مثال: دكتورة / مهندسة / عالم"></div>
+    <div class="field"><label data-ar="حلمك أو هدفك" data-en="Your dream or goal">حلمك أو هدفك</label><input id="studentDream" placeholder="مثال: طبيبة أطفال"></div>
+    <div class="field"><label data-ar="اسم المساعد الذكي" data-en="AI assistant name">اسم المساعد الذكي</label><input id="assistantName" placeholder="مثال: رفيق"></div>
+    <button class="btn" id="saveProfile" data-ar="حفظ التغييرات" data-en="Save changes">حفظ التغييرات</button>
+    <p class="empty" data-ar="الاسم واللقب والحلم تخصيصات محلية في هذه النسخة، وليست حسابًا مسجلًا على الإنترنت." data-en="Name, title and dream are saved locally in this prototype, not to an online account.">الاسم واللقب والحلم تخصيصات محلية في هذه النسخة، وليست حسابًا مسجلًا على الإنترنت.</p>
+  </div>
+  <div class="panel"><h3 data-ar="اللغة" data-en="Language">اللغة</h3><div class="row"><button class="btn secondary" id="langAr">العربية</button><button class="btn secondary" id="langEn">English</button></div></div>
+  <div class="panel"><h3 data-ar="اختاري الثيم" data-en="Choose a theme">اختاري الثيم</h3><div class="theme-grid">
+    <button class="theme-swatch" data-theme-choice="pastel"><div class="swatch" style="background:linear-gradient(90deg,#6158c9,#eeeaff)"></div><span data-ar="موف هادي" data-en="Lavender">موف هادي</span></button>
+    <button class="theme-swatch" data-theme-choice="rose"><div class="swatch" style="background:linear-gradient(90deg,#c65d91,#fde6f0)"></div><span data-ar="وردي" data-en="Rose">وردي</span></button>
+    <button class="theme-swatch" data-theme-choice="blue"><div class="swatch" style="background:linear-gradient(90deg,#3478c9,#e0efff)"></div><span data-ar="أزرق" data-en="Blue">أزرق</span></button>
+    <button class="theme-swatch" data-theme-choice="green"><div class="swatch" style="background:linear-gradient(90deg,#318765,#def4e8)"></div><span data-ar="أخضر" data-en="Green">أخضر</span></button>
+    <button class="theme-swatch" data-theme-choice="dark"><div class="swatch" style="background:linear-gradient(90deg,#171827,#a39bff)"></div><span data-ar="داكن" data-en="Dark">داكن</span></button>
+  </div></div>
+
+  <div class="panel" id="studentProfilePanel">
+    <h3>ملفي الدراسي</h3>
+    <p class="empty" id="studentProfileSummary">بيانات الصف والمسار الدراسي.</p>
+    <button class="btn secondary" id="editStudentProfile" type="button">تعديل بيانات الدراسة</button>
+    <button class="btn ghost" id="logoutLocal" type="button">تسجيل الخروج من هذا الجهاز</button>
+  </div>
+</section>
+
+<section class="page" id="page-about">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="عن التطبيق والمطوّر" data-en="About the App & Developer">عن التطبيق والمطوّر</h2></div>
+  <div class="hero">
+    <div style="font-size:42px;margin-bottom:10px">📚</div>
+    <h1 data-ar="رفيق الدراسة" data-en="Study Companion">رفيق الدراسة</h1>
+    <p data-ar="رفيقك لتنظيم المذاكرة، ومتابعة التقدم، والاستعداد للدروس والامتحانات في مكان واحد." data-en="Your companion for organizing study, tracking progress, and preparing for lessons and exams in one place.">رفيقك لتنظيم المذاكرة، ومتابعة التقدم، والاستعداد للدروس والامتحانات في مكان واحد.</p>
+  </div>
+  <div class="panel stack">
+    <div class="itemline"><span data-ar="اسم المطوّر" data-en="Developer">اسم المطوّر</span><strong>Malak Assem (ملك عاصم)</strong></div>
+    <div class="itemline"><span data-ar="اسم التطبيق" data-en="App name">اسم التطبيق</span><strong data-ar="رفيق الدراسة" data-en="Study Companion">رفيق الدراسة</strong></div>
+    <div class="itemline"><span data-ar="الإصدار" data-en="Version">الإصدار</span><strong>1.0.0</strong></div>
+    <div class="itemline"><span data-ar="حقوق الملكية" data-en="Copyright">حقوق الملكية</span><strong>© 2026 Malak Assem</strong></div>
+    <div>
+      <h3 data-ar="رسالة التطبيق" data-en="Our purpose">رسالة التطبيق</h3>
+      <p class="empty" data-ar="نساعد الطلاب على تنظيم وقتهم، وفهم دروسهم، ومتابعة أهدافهم خطوة بخطوة. هذه نسخة تجريبية، وبعض الميزات تحتاج إلى ربط بخدمات إضافية قبل أن تعمل بشكل كامل." data-en="We help students organize their time, understand lessons, and follow their goals step by step. This is a prototype, and some features need additional service integrations before they work fully.">نساعد الطلاب على تنظيم وقتهم، وفهم دروسهم، ومتابعة أهدافهم خطوة بخطوة. هذه نسخة تجريبية، وبعض الميزات تحتاج إلى ربط بخدمات إضافية قبل أن تعمل بشكل كامل.</p>
+    </div>
+    <div>
+      <h3 data-ar="التواصل مع المطوّر" data-en="Contact the developer">التواصل مع المطوّر</h3>
+      <p class="empty" data-ar="للتواصل بخصوص التطبيق، استخدم حساب الدعم على تليجرام. لا يظهر رقم الهاتف هنا." data-en="For app support, contact the Telegram support account. Your phone number is not displayed here.">للتواصل بخصوص التطبيق، استخدم حساب الدعم على تليجرام. لا يظهر رقم الهاتف هنا.</p>
+      <a class="btn" href="https://t.me/RafiqStudySupport" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none" data-ar="فتح تليجرام للدعم" data-en="Open Telegram Support">فتح تليجرام للدعم</a>
+      <p class="empty">Username: @RafiqStudySupport</p>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="page-support">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="الشكاوى والدعم الفني" data-en="Support & Complaints">الشكاوى والدعم الفني</h2></div>
+  <div class="hero"><h1 data-ar="إحنا هنا نساعدك" data-en="We’re here to help">إحنا هنا نساعدك</h1><p data-ar="اضغطي على الزر لفتح تليجرام. اسم المستخدم هو وسيلة التواصل، ورقم هاتفك لا يظهر داخل التطبيق." data-en="Tap below to open Telegram. The username is used for contact; your phone number is not shown in the app.">اضغطي على الزر لفتح تليجرام. اسم المستخدم هو وسيلة التواصل، ورقم هاتفك لا يظهر داخل التطبيق.</p><div class="actions"><a class="btn" href="https://t.me/RafiqStudySupport" target="_blank" rel="noopener" style="text-decoration:none" data-ar="مراسلة الدعم على تليجرام" data-en="Message support on Telegram">مراسلة الدعم على تليجرام</a></div><p class="empty">@RafiqStudySupport</p></div>
+  <div class="panel"><h3 data-ar="طلب تخفيض أو مساعدة في الاشتراك" data-en="Discount or subscription assistance">طلب تخفيض أو مساعدة في الاشتراك</h3><p class="empty" data-ar="يمكن للطالب مراسلة الدعم وشرح حالته. لا ترسلوا كلمات مرور أو بيانات دفع سرية." data-en="Students can message support and explain their situation. Never send passwords or sensitive payment details.">يمكن للطالب مراسلة الدعم وشرح حالته. لا ترسلوا كلمات مرور أو بيانات دفع سرية.</p><div class="field"><label data-ar="اسم الطالب" data-en="Student name">اسم الطالب</label><input id="discountName" placeholder="اسم الطالب"></div><div class="field"><label data-ar="نوع الطلب" data-en="Request type">نوع الطلب</label><select id="discountType"><option value="discount">طلب تخفيض</option><option value="access">مشكلة في الدخول</option><option value="bug">الإبلاغ عن مشكلة</option><option value="other">أخرى</option></select></div><div class="field"><label data-ar="تفاصيل الطلب" data-en="Request details">تفاصيل الطلب</label><textarea id="discountDetails" placeholder="اكتب تفاصيل طلبك..."></textarea></div><button class="btn" id="sendDiscountRequest" data-ar="إرسال الطلب عبر تليجرام" data-en="Send request via Telegram">إرسال الطلب عبر تليجرام</button><p class="empty" data-ar="الزر يفتح تليجرام برسالة جاهزة؛ الطالب يراجعها ويرسلها بنفسه." data-en="The button opens Telegram with a prepared message; the student reviews and sends it.">الزر يفتح تليجرام برسالة جاهزة؛ الطالب يراجعها ويرسلها بنفسه.</p></div>
+</section>
+
+<section class="page" id="page-admin">
+  <div class="page-head"><button class="back" data-go="home">← <span data-ar="رجوع" data-en="Back">رجوع</span></button><h2 data-ar="لوحة إدارة المطوّرة" data-en="Developer Admin Panel">لوحة إدارة المطوّرة</h2></div>
+  <div class="hero"><h1 data-ar="مرحبًا يا Malak Assem" data-en="Welcome, Malak Assem">مرحبًا يا Malak Assem</h1><p data-ar="ده شكل مبدئي للوحة الإدارة. حاليًا الملف تجريبي فقط، وأي بيانات فيه محفوظة على نفس الجهاز. لا تستخدميه لإدارة طلاب حقيقيين أو منح تخفيضات فعلية قبل إعداد تسجيل دخول آمن وقاعدة بيانات مشتركة." data-en="This is a UI prototype only. Data is stored on this device. Do not use it to manage real students or grant real discounts until secure login and a shared database are implemented.">ده شكل مبدئي للوحة الإدارة. حاليًا الملف تجريبي فقط، وأي بيانات فيه محفوظة على نفس الجهاز. لا تستخدميه لإدارة طلاب حقيقيين أو منح تخفيضات فعلية قبل إعداد تسجيل دخول آمن وقاعدة بيانات مشتركة.</p></div>
+  <div class="panel"><h3 data-ar="طلبات التخفيض المسجلة على هذا الجهاز" data-en="Discount requests saved on this device">طلبات التخفيض المسجلة على هذا الجهاز</h3><div id="adminRequests"><p class="empty">لا توجد طلبات محلية حتى الآن.</p></div></div>
+  <div class="panel"><h3 data-ar="إدارة الاشتراكات — نموذج تجريبي" data-en="Subscription management — demo">إدارة الاشتراكات — نموذج تجريبي</h3><p class="empty" data-ar="لاحقًا، بعد ربط قاعدة البيانات وتسجيل دخول آمن بصفتك المديرة، تقدري تراجعي طلب كل طالب وتوافقي على تخفيض أو ترفضي الطلب من موبايلك. لا نضع كلمة مرور المديرة داخل كود HTML لأن أي شخص يمكنه رؤيتها." data-en="After connecting a database and secure admin login, you’ll be able to review each student’s request and approve or decline discounts from your phone. An admin password must never be placed in HTML because anyone can inspect it.">لاحقًا، بعد ربط قاعدة البيانات وتسجيل دخول آمن بصفتك المديرة، تقدري تراجعي طلب كل طالب وتوافقي على تخفيض أو ترفضي الطلب من موبايلك. لا نضع كلمة مرور المديرة داخل كود HTML لأن أي شخص يمكنه رؤيتها.</p></div>
+</section>
+</main>
+<nav class="bottom-nav"><button class="active" data-go="home">⌂ <span data-ar="الرئيسية" data-en="Home">الرئيسية</span></button><button data-go="assistant">🤖 <span data-ar="المساعد" data-en="Assistant">المساعد</span></button><button data-go="settings">⚙️ <span data-ar="الإعدادات" data-en="Settings">الإعدادات</span></button></nav>
+<footer data-ar="رفيق الدراسة — نسخة تجريبية تعمل محليًا على جهازك" data-en="Study Companion — local prototype">رفيق الدراسة — نسخة تجريبية تعمل محليًا على جهازك</footer>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const defaults={lang:'ar',theme:'pastel',name:'',title:'',dream:'',assistant:'رفيق',tasks:[],notes:[],revisions:[],points:0,worship:{},journal:'',studentProfile:null,authComplete:false};
+let state;
+try{state={...defaults,...JSON.parse(localStorage.getItem('studyCompanionState')||'{}')}}catch(e){state={...defaults}}
+function persist(){localStorage.setItem('studyCompanionState',JSON.stringify(state))}
+function t(ar,en){return state.lang==='ar'?ar:en}
+function applyLang(){
+ document.documentElement.lang=state.lang;document.documentElement.dir=state.lang==='ar'?'rtl':'ltr';
+ $$('[data-ar][data-en]').forEach(el=>{if(!el.dataset.userValue)el.textContent=el.dataset[state.lang]});
+ $('#chatInput').placeholder=t('اكتب سؤالك هنا...','Type your study question...');
+ $('#studentName').placeholder=t('اكتب اسمك','Enter your name');
+ $('#studentTitle').placeholder=t('مثال: دكتورة / مهندسة / عالم','e.g. Doctor / Engineer / Scientist');
+ $('#studentDream').placeholder=t('مثال: طبيبة أطفال','e.g. Pediatrician');
+ $('#assistantName').placeholder=t('مثال: رفيق','e.g. Study Buddy');
+ updateGreeting();renderTasks();renderNotes();renderRevisions();renderWorship();renderAchievements();
+}
+function updateGreeting(){
+ const name=state.name.trim(),title=state.title.trim(),dream=state.dream.trim();
+ let greeting;
+ if(state.lang==='ar'){
+   greeting=name?`أهلًا يا ${title?title+' ':''}${name}،${dream?' حلمك «'+dream+'» يستاهل كل خطوة!':' جاهز تحقق حلمك؟'}`:'أهلًا بيك في رفيق الدراسة';
+ }else{
+   greeting=name?`Welcome${title?', '+title:''} ${name}!${dream?' Your dream of '+dream+' starts with one step.':' Ready to work toward your dream?'}`:'Welcome to Study Companion';
+ }
+ $('#welcomeTitle').textContent=greeting;$('#topGreeting').textContent=name?t('أهلًا، ','Hi, ')+name:t('أهلًا بيك','Welcome');
+ $('#botNameDisplay').textContent=state.assistant||'رفيق';
+}
+function go(page){$$('.page').forEach(p=>p.classList.remove('active'));$('#page-'+page)?.classList.add('active');document.body.classList.remove('menu-open');$$('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.go===page));window.scrollTo({top:0,behavior:'smooth'});}
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('#menuButton').onclick=()=>document.body.classList.add('menu-open');$('#closeMenu').onclick=()=>document.body.classList.remove('menu-open');$('#drawerBackdrop').onclick=()=>document.body.classList.remove('menu-open');
+function addBubble(text,who){const d=document.createElement('div');d.className='bubble '+who;d.textContent=text;$('#chatLog').appendChild(d);$('#chatLog').scrollTop=$('#chatLog').scrollHeight}
+$('#chatForm').addEventListener('submit',e=>{e.preventDefault();const input=$('#chatInput'),msg=input.value.trim();if(!msg)return;addBubble(t('أنتِ: ','You: ')+msg,'user');addBubble(t('وصل سؤالك للواجهة التجريبية. لسه محتاجين نربط المساعد بخدمة ذكاء اصطناعي علشان يقدر يجاوب على محتوى دراسي موثوق.','Your message is displayed in this demo. An AI service and approved study sources still need to be connected before it can answer.'),'bot');input.value='';});
+
+$('#sendDiscountRequest').onclick=()=>{
+ const name=$('#discountName').value.trim(),details=$('#discountDetails').value.trim(),type=$('#discountType').value;
+ if(!name||!details){alert(t('اكتبي اسم الطالب وتفاصيل الطلب أولًا.','Please enter the student name and request details first.'));return}
+ const labels={discount:t('طلب تخفيض','Discount request'),access:t('مشكلة دخول','Login issue'),bug:t('الإبلاغ عن مشكلة','Bug report'),other:t('طلب آخر','Other request')};
+ const msg=t('طلب دعم جديد من رفيق الدراسة','New support request from Study Companion')+'\n'+t('اسم الطالب: ','Student name: ')+name+'\n'+t('نوع الطلب: ','Request type: ')+labels[type]+'\n'+t('التفاصيل: ','Details: ')+details;
+ const url='https://t.me/RafiqStudySupport?text='+encodeURIComponent(msg);
+ window.open(url,'_blank','noopener');
+};
+$('#saveProfile').onclick=()=>{state.name=$('#studentName').value.trim();state.title=$('#studentTitle').value.trim();state.dream=$('#studentDream').value.trim();state.assistant=$('#assistantName').value.trim()||'رفيق';persist();updateGreeting();renderStudentProfile();alert(t('تم حفظ التخصيصات على هذا الجهاز','Your preferences have been saved on this device'));};
+$('#langAr').onclick=()=>{state.lang='ar';persist();applyLang()};$('#langEn').onclick=()=>{state.lang='en';persist();applyLang()};
+$$('[data-theme-choice]').forEach(b=>b.onclick=()=>{state.theme=b.dataset.themeChoice;document.body.dataset.theme=state.theme;persist();$$('.theme-swatch').forEach(x=>x.classList.toggle('active',x===b))});
+function renderTasks(){
+ const list=$('#taskList');if(!list)return;list.innerHTML='';
+ if(!state.tasks.length){list.innerHTML=`<p class="empty">${t('لسه مفيش مهام. أضيفي أول مهمة فوق.','No tasks yet. Add your first task above.')}</p>`;return}
+ state.tasks.forEach((task,i)=>{const row=document.createElement('div');row.className='itemline';const label=document.createElement('label');label.style.flex='1';const cb=document.createElement('input');cb.type='checkbox';cb.checked=task.done;cb.onchange=()=>{if(cb.checked&&!task.done)state.points+=10;task.done=cb.checked;persist();renderTasks();renderAchievements()};label.append(cb,document.createTextNode(' '+task.name+(task.date?' — '+task.date:'')));const del=document.createElement('button');del.className='back';del.textContent='×';del.onclick=()=>{state.tasks.splice(i,1);persist();renderTasks();renderAchievements()};row.append(label,del);list.append(row)});
+}
+$('#addTask').onclick=()=>{const name=$('#taskInput').value.trim();if(!name)return;state.tasks.push({name,date:$('#taskDate').value,done:false});$('#taskInput').value='';persist();renderTasks();renderAchievements()};
+function renderAchievements(){const el=$('#achievementTasks');if(!el)return;$('#points').textContent=state.points;el.innerHTML=`<h3>${t('مهامك','Your tasks')}</h3>`;if(!state.tasks.length){el.innerHTML+=`<p class="empty">${t('أضيفي مهام من صفحة جدول المذاكرة.','Add tasks from the study schedule page.')}</p>`;return}state.tasks.forEach(x=>{const d=document.createElement('div');d.className='itemline';d.textContent=(x.done?'✓ ':'○ ')+x.name;el.append(d)})}
+function renderNotes(){const el=$('#notesList');if(!el)return;el.innerHTML='';state.notes.forEach((n,i)=>{const d=document.createElement('div');d.className='itemline';const text=document.createElement('div');text.style.whiteSpace='pre-wrap';text.innerHTML='';const strong=document.createElement('strong');strong.textContent=n.title||t('ملاحظة','Note');const p=document.createElement('p');p.textContent=n.body;p.style.margin='6px 0 0';text.append(strong,p);const del=document.createElement('button');del.className='back';del.textContent='×';del.onclick=()=>{state.notes.splice(i,1);persist();renderNotes()};d.append(text,del);el.append(d)})}
+$('#saveNote').onclick=()=>{const title=$('#noteTitle').value.trim(),body=$('#noteBody').value.trim();if(!title&&!body)return;state.notes.unshift({title,body});persist();$('#noteTitle').value='';$('#noteBody').value='';renderNotes()};
+function renderRevisions(){const el=$('#revisionList');if(!el)return;el.innerHTML='';state.revisions.forEach((r,i)=>{const d=document.createElement('div');d.className='itemline';const s=document.createElement('span');s.textContent=r.subject+': '+r.text;const del=document.createElement('button');del.className='back';del.textContent='×';del.onclick=()=>{state.revisions.splice(i,1);persist();renderRevisions()};d.append(s,del);el.append(d)})}
+$('#saveRevision').onclick=()=>{const subject=$('#subjectInput').value.trim(),text=$('#revisionInput').value.trim();if(!subject&&!text)return;state.revisions.unshift({subject:subject||t('مادة غير محددة','Unspecified subject'),text});persist();$('#subjectInput').value='';$('#revisionInput').value='';renderRevisions()};
+const worshipItems=[['prayer','الصلاة','Prayer'],['quran','قراءة القرآن','Quran reading'],['adhkar','الأذكار','Adhkar'],['dua','الدعاء','Dua']];
+function renderWorship(){const el=$('#worshipList');if(!el)return;el.innerHTML='';worshipItems.forEach(([id,ar,en])=>{const label=document.createElement('label');label.className='itemline';const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!state.worship[id];cb.onchange=()=>{state.worship[id]=cb.checked;persist()};label.append(cb,document.createTextNode(' '+t(ar,en)));el.append(label)})}
+$('#saveJournal').onclick=()=>{state.journal=$('#journalText').value;persist();$('#journalSaved').textContent=t('اتحفظت على هذا الجهاز.','Saved on this device.');};
+
+const authSpecialties={
+ medicine:[['math','الرياضيات'],['physics','الفيزياء']],
+ engineering:[['programming','البرمجة'],['chemistry','الكيمياء']],
+ business:[['management','إدارة الأعمال'],['accounting','المحاسبة']],
+ arts:[['psychology','علم النفس'],['language','اللغة الثانية']]
+};
+function updateAuthFields(){
+ const grade=$('#authGrade').value;
+ const system=$('#authSystem').value;
+ const path=$('#authPath').value;
+ const isSecondary2=grade==='secondary2';
+
+ // Keep the native hidden attribute authoritative even when other CSS styles apply.
+ $('#authSystemWrap').hidden=!isSecondary2;
+ $('#authGeneralWrap').hidden=!(isSecondary2 && system==='general');
+ $('#authPathWrap').hidden=!(isSecondary2 && system==='baccalaureate');
+ $('#authTermWrap').hidden=false;
+
+ const specialty=$('#authSpecialty');
+ const currentSpecialty=specialty.value;
+ const list=(isSecondary2 && system==='baccalaureate' && path)
+   ? (authSpecialties[path]||[]) : [];
+ specialty.innerHTML='<option value="">اختار التخصص</option>' +
+   list.map(([value,label])=>`<option value="${value}">${label}</option>`).join('');
+ if(list.some(([value])=>value===currentSpecialty)) specialty.value=currentSpecialty;
+ $('#authSpecialtyWrap').hidden=!(isSecondary2 && system==='baccalaureate' && !!path && list.length>0);
+
+ if(!isSecondary2){
+   $('#authSystem').value='';
+   $('#authGeneral').value='';
+   $('#authPath').value='';
+   specialty.innerHTML='<option value="">اختار التخصص</option>';
+   $('#authSpecialtyWrap').hidden=true;
+ } else if(system!=='general') {
+   $('#authGeneral').value='';
+ } 
+ if(system!=='baccalaureate'){
+   $('#authPath').value='';
+   specialty.innerHTML='<option value="">اختار التخصص</option>';
+   $('#authSpecialtyWrap').hidden=true;
+ }
+}
+$('#authGrade').addEventListener('change',updateAuthFields);
+$('#authSystem').addEventListener('change',()=>{
+ $('#authGeneral').value='';
+ $('#authPath').value='';
+ $('#authSpecialty').innerHTML='<option value="">اختار التخصص</option>';
+ updateAuthFields();
+});
+$('#authGeneral').addEventListener('change',updateAuthFields);
+$('#authPath').addEventListener('change',updateAuthFields);
+$('#authLang').onclick=()=>{state.lang=state.lang==='ar'?'en':'ar';persist();applyLang();$('#authLang').textContent=state.lang==='ar'?'English':'العربية';};
+function showAuth(){ $('#authScreen').hidden=false;document.body.classList.add('auth-locked'); }
+function hideAuth(){ $('#authScreen').hidden=true;document.body.classList.remove('auth-locked'); }
+function finishAuth(profile){
+ state.studentProfile=profile;state.authComplete=true;state.name=profile.name;persist();
+ $('#studentName').value=state.name;
+ hideAuth();applyLang();go('home');
+}
+$('#authForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=$('#authName').value.trim(),grade=$('#authGrade').value,system=$('#authSystem').value;
+ const error=$('#authError');error.textContent='';
+ if(!name||!grade){error.textContent='اكتب الاسم واختار الصف الدراسي.';return}
+ let track='',specialty='';
+ if(grade==='secondary2'){
+   if(!system){error.textContent='اختار النظام الدراسي.';return}
+   if(system==='general'){track=$('#authGeneral').value;if(!track){error.textContent='اختار الشعبة.';return}}
+   if(system==='baccalaureate'){track=$('#authPath').value;specialty=$('#authSpecialty').value;if(!track||!specialty){error.textContent='اختار المسار والتخصص.';return}}
+ }
+ const gradeLabel=$('#authGrade').selectedOptions[0].textContent;
+ const profile={name,grade,gradeLabel,system:grade==='secondary2'?system:'',track,specialty,term:$('#authTerm').value,createdAt:new Date().toISOString()};
+ finishAuth(profile);$('#authTitle').textContent='إنشاء حساب طالب';$('#authSubmit').textContent='إنشاء الحساب والدخول';
+});
+$('#authReset').onclick=()=>{
+ if(!confirm('هيمسح بيانات رفيق الدراسة المحفوظة على الجهاز. متأكد؟'))return;
+ localStorage.removeItem('studyCompanionState');location.reload();
+};
+
+
+function renderStudentProfile(){
+ const p=state.studentProfile, el=$('#studentProfileSummary');
+ if(!el)return;
+ if(!p){el.textContent='لم يتم إعداد ملف دراسي بعد.';return}
+ const pathNames={medicine:'الطب وعلوم الحياة',engineering:'الهندسة وعلوم الحاسب',business:'الأعمال',arts:'الآداب والفنون'};
+ const specialtyNames={math:'الرياضيات',physics:'الفيزياء',programming:'البرمجة',chemistry:'الكيمياء',management:'إدارة الأعمال',accounting:'المحاسبة',psychology:'علم النفس',language:'اللغة الثانية'};
+ let details=p.gradeLabel;
+ if(p.grade==='secondary2')details+=' — '+(p.system==='general'?'الثانوية العامة: '+p.track:'البكالوريا: '+(pathNames[p.track]||p.track)+' / '+(specialtyNames[p.specialty]||p.specialty));
+ else details+=' — '+p.term;
+ el.textContent=p.name+' | '+details;
+}
+$('#editStudentProfile')?.addEventListener('click',()=>{showAuth();if(state.studentProfile){$('#authName').value=state.studentProfile.name||'';$('#authEmail').value=state.studentProfile.email||'';$('#authGrade').value=state.studentProfile.grade||'';$('#authSystem').value=state.studentProfile.system||'';$('#authGeneral').value=state.studentProfile.system==='general'?state.studentProfile.track:'';$('#authPath').value=state.studentProfile.system==='baccalaureate'?state.studentProfile.track:'';updateAuthFields();$('#authSpecialty').value=state.studentProfile.specialty||'';$('#authTerm').value=state.studentProfile.term||'الترم الأول';$('#authTitle').textContent='تعديل الملف الدراسي';$('#authSubmit').textContent='حفظ التعديلات';}});
+$('#logoutLocal')?.addEventListener('click',()=>{state.authComplete=false;persist();showAuth();$('#authTitle').textContent='تسجيل الدخول / ملف الطالب';$('#authSubmit').textContent='الدخول إلى التطبيق';});
+
+function init(){document.body.dataset.theme=state.theme;
+ if(state.authComplete&&state.studentProfile){$('#authName').value=state.studentProfile.name||'';$('#authEmail').value=state.studentProfile.email||'';$('#authGrade').value=state.studentProfile.grade||'';$('#authSystem').value=state.studentProfile.system||'';$('#authGeneral').value=state.studentProfile.system==='general'?state.studentProfile.track:'';$('#authPath').value=state.studentProfile.system==='baccalaureate'?state.studentProfile.track:'';updateAuthFields();$('#authSpecialty').value=state.studentProfile.specialty||'';$('#authTerm').value=state.studentProfile.term||'الترم الأول';hideAuth();}else{showAuth()}
+ renderStudentProfile();$('#adminRequests').innerHTML='<p class="empty">'+t('الطلبات المرسلة عبر تليجرام ستصل إلى محادثة الدعم، ولن تظهر هنا تلقائيًا في النسخة التجريبية.','Requests sent via Telegram arrive in the support chat and will not automatically appear here in this prototype.')+'</p>'; $('#studentName').value=state.name;$('#studentTitle').value=state.title;$('#studentDream').value=state.dream;$('#assistantName').value=state.assistant;$('#journalText').value=state.journal;$$('.theme-swatch').forEach(b=>b.classList.toggle('active',b.dataset.themeChoice===state.theme));applyLang();}
+init();
+</script>
+</body>
+</html>

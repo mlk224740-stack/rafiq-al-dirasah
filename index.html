@@ -47,7 +47,6 @@ body.dark{--bg:#171526;--panel:#211f33;--text:#f2efff;--muted:#aaa5c5;--soft:#30
 <div class="modal" id="resourceModal"><div class="modal-card"><div class="modal-head"><h3>إضافة مورد للمكتبة</h3><button class="close" onclick="closeModal('resourceModal')">×</button></div><form id="resourceForm"><div class="field"><label>اسم المورد</label><input id="resourceTitle" required placeholder="عنوان المرجع أو الرابط"></div><div class="field"><label>رابط (اختياري)</label><input id="resourceUrl" type="url" placeholder="https://..."></div><div class="field"><label>وصف</label><textarea id="resourceDesc" placeholder="ملاحظات عن المورد"></textarea></div><button class="btn primary">حفظ المورد</button></form></div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
 const SUPABASE_URL = 'https://cesvlwangljdxmincvaq.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_hyQsCgevuPT_UHxwqURm7w_Ugdiq699';
